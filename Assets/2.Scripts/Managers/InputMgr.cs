@@ -7,8 +7,8 @@ public class InputMgr
 {
     public Action KeyAction = null;
 
-    public void OnUpdate()
-    {
+    public void UpdateWhenanyKey()      // Managers의 Update에서 anyKey가 눌리면 KeyAction 이벤트를 실행시켜줄 함수
+    {                                   
         if (Input.anyKey == false)
             return;
 

@@ -8,7 +8,10 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { init(); return s_Instance; } }  // 이미 존재할 경우 init()내에서 생성 스킵됨
 
     InputMgr _inputMgr = new InputMgr();
+    ResourceMgr _resourceMgr = new ResourceMgr();
+
     public static InputMgr inputMgr { get { return Instance._inputMgr; } }
+    public static ResourceMgr resourceMgr { get { return Instance._resourceMgr; } }
 
     void Start()
     {
@@ -17,7 +20,7 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        _inputMgr.OnUpdate();
+        _inputMgr.UpdateWhenanyKey();   // anyKey가 눌리면 Update 작동
     }
 
     static void init()          //singleton 패턴

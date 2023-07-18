@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCtrl : MonoBehaviour
 {
     [SerializeField] private float M_speed = 10.0f;
-    [SerializeField] private float R_speed = 100.0f;
+    //[SerializeField] private float R_speed = 100.0f;
 
     private void Start()
     {
