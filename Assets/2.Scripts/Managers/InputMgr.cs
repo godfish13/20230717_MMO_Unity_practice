@@ -8,12 +8,16 @@ public class InputMgr
     public Action KeyAction = null;
 
     public void UpdateWhenanyKey()      // Managers의 Update에서 anyKey가 눌리면 KeyAction 이벤트를 실행시켜줄 함수
-    {                                   
+    {
+        /*Debug.Log("keydowning");
+        KeyAction.Invoke();*/       // %%%% 1) ver.Rx inputMgr Move
+
         if (Input.anyKey == false)
             return;
 
         if (Input.anyKey != false)
         {
+            //Debug.Log("keydowning");
             KeyAction.Invoke();     // Invoke는 Action을 호출해줌 여기서는 Input.anyKey가 들어오면 KeyAction작동함
         }                           // KeyAction에 PlayerCtrl에서 Move를 연동시켜놨으므로 Input.anyKey가 들어오면 Move하게 됨
     }

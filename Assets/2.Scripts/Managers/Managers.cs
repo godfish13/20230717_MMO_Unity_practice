@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 
 public class Managers : MonoBehaviour
 {
@@ -16,11 +18,16 @@ public class Managers : MonoBehaviour
     void Start()
     {
         init();
+        /*this.UpdateAsObservable()
+            .Select(_ => Input.anyKey)
+            .Where(anyKey => anyKey != false)
+            .Subscribe(anyKey => _inputMgr.UpdateWhenanyKey());*/ // %%% 1) ver.Rx inputMgr Move - inputMgr 1)번이랑 함께하기
     }
 
     void Update()
     {
         _inputMgr.UpdateWhenanyKey();   // anyKey가 눌리면 Update 작동
+
     }
 
     static void init()          //singleton 패턴
