@@ -16,11 +16,11 @@ public class InputMgr
         KeyAction.Invoke();*/       // %%%% 1) ver.Rx inputMgr Move
 
 
-        if (Input.anyKey)
+        /*if (Input.anyKey)
         {
             //Debug.Log("keydowning");
             KeyAction.Invoke();     // Invoke는 Action을 호출해줌 여기서는 Input.anyKey가 들어오면 KeyAction작동함
-        }                           // KeyAction에 PlayerCtrl에서 Move를 연동시켜놨으므로 Input.anyKey가 들어오면 Move하게 됨
+        }                           // KeyAction에 PlayerCtrl에서 Move를 연동시켜놨으므로 Input.anyKey가 들어오면 Move하게 됨*/
     
 
         if (Input.GetMouseButton(0))
