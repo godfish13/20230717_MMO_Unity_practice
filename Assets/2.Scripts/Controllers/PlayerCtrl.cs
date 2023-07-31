@@ -16,7 +16,6 @@ public class PlayerCtrl : MonoBehaviour
         Idle,
     }
     [SerializeField] PlayerStatue _Statue = PlayerStatue.Idle;
-    float wait_run_ratio = 0; // wait / run 애니메이션 블랜딩용 parameter
 
     private void Start()
     {
@@ -25,6 +24,8 @@ public class PlayerCtrl : MonoBehaviour
 
         Managers.inputMgr.MouseAction -= OnMouseClicked;
         Managers.inputMgr.MouseAction += OnMouseClicked;
+
+        Managers.resourceMgr.Instantiate("UI/UI_Btn");
 
     }
 
@@ -49,16 +50,6 @@ public class PlayerCtrl : MonoBehaviour
         // 아무것도 못하는 사망상태
     }
 
-    void UpdateIdle()
-    {
-
-        // 이하 애니메이션 처리
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 0, 10.0f * Time.deltaTime);
-        Animator Anim = GetComponent<Animator>();
-        Anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        Anim.Play("WAIT_RUN");
-    }
-
     void UpdateMoving()
     {
         Vector3 dir = MouseClickDestination - transform.position;
@@ -75,10 +66,22 @@ public class PlayerCtrl : MonoBehaviour
         }
 
         // 이하 애니메이션 처리
-        wait_run_ratio = Mathf.Lerp(wait_run_ratio, 1, 10.0f * Time.deltaTime);
         Animator Anim = GetComponent<Animator>();
-        Anim.SetFloat("wait_run_ratio", wait_run_ratio);
-        Anim.Play("WAIT_RUN");
+        // 현재 게임 상태에 대한 정보를 넘겨줌
+        Anim.SetFloat("Speed", M_speed);
+    }
+
+    /*void OnRunEvent()     // AnimationEvent 실험
+    {
+        Debug.Log("뚜벅뚜벅")
+    }*/
+
+    void UpdateIdle()
+    {
+
+        // 이하 애니메이션 처리
+        Animator Anim = GetComponent<Animator>();
+        Anim.SetFloat("Speed", 0);
     }
 
  /*   void Move()
