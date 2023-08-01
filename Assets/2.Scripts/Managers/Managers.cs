@@ -11,9 +11,11 @@ public class Managers : MonoBehaviour
 
     InputMgr _inputMgr = new InputMgr();
     ResourceMgr _resourceMgr = new ResourceMgr();
+    UIMgr _UIMgr = new UIMgr();
 
     public static InputMgr inputMgr { get { return Instance._inputMgr; } }
     public static ResourceMgr resourceMgr { get { return Instance._resourceMgr; } }
+    public static UIMgr UIMgr { get { return Instance._UIMgr; } }
 
     void Start()
     {

@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class Utils
 {
+    public static T GetOrAddComponent<T>(GameObject go) where T : UnityEngine.Component
+    {
+        T Component = go.GetComponent<T>();
+        if (Component == null)
+            Component = go.AddComponent<T>();
+        return Component;
+    }
+
     public static GameObject FindChild(GameObject go, string name = null, bool recursive = false)   // UI항목 말고 GameObject도 enum과 연동하기 위해
     {                                                                                               // 일반화 없는 GameObject버전도 만들어둠
         Transform transform =  FindChild<Transform>(go, name, recursive);      // GameObject는 Monobehavior, ... 을 상속받지 않은 것이라 따로

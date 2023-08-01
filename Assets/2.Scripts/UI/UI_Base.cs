@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Base : MonoBehaviour
@@ -40,4 +41,23 @@ public class UI_Base : MonoBehaviour
     protected Text GetText(int idx) { return Get_UI<Text>(idx); }
     protected Button GetButton(int idx) { return Get_UI<Button>(idx); }
     protected Image GetImage(int idx) { return Get_UI<Image>(idx); }
+    protected GameObject GetGameObject(int idx) { return Get_UI<GameObject>(idx); }
+
+    // UI에 마우스 관련 Event연동시키는 메소드
+    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    {
+        UI_EventHandler evt = Utils.GetOrAddComponent<UI_EventHandler>(go);
+
+        switch(type)
+        {
+            case Define.UIEvent.Click:
+                evt.OnClickHandler -= action;
+                evt.OnClickHandler += action;
+                break;
+            case Define.UIEvent.Drag:
+                evt.OnDragHandler -= action;
+                evt.OnDragHandler += action;
+                break;
+        }
+    }
 }
