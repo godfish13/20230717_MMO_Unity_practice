@@ -4,9 +4,53 @@ using UnityEngine;
 
 public class UIMgr
 {
-    int _order = 0; // UI들이 화면에 노출되는 순서 (Canvas의 order)
+    int _order = 10; // UI들이 화면에 노출되는 순서 (Canvas의 order)
 
     Stack<UI_PopUp> _PopUpStack = new Stack<UI_PopUp>();
+    UI_Scene _sceneUI = null;
+
+    public GameObject Root
+    {
+        get 
+        {
+            GameObject root = GameObject.Find("root");
+            if(root == null)
+                root = new GameObject { name = "root" };
+            return root;
+        }
+    }
+
+    public void SetCanvas(GameObject go, bool sort = true)
+    {
+        Canvas canvas = Utils.GetOrAddComponent<Canvas>(go);
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.overrideSorting = true;  // Canvas가 중첩되면 부모오브젝트의 sortingOrder와 관련없이 자기의 sortingOrder를 따르도록 하는 옵션
+        
+        if(sort)
+        {
+            canvas.sortingOrder = _order;
+            _order++;
+        }
+        else
+        {
+            canvas.sortingOrder = 0;   // sort요청을 안한건 PopUp과 관련없는 UI이므로 sort관련 변화 x
+        }
+            
+    }
+
+    public T ShowSceneUI<T>(string name = null) where T : UI_Scene
+    {
+        if (string.IsNullOrEmpty(name))      // 이름 지정 안하고 그냥 사용하면 T 팝업시킴
+            name = typeof(T).Name;
+
+        GameObject go = Managers.resourceMgr.Instantiate($"UI/Scene/{name}");
+        T SceneUI = Utils.GetOrAddComponent<T>(go);
+        _sceneUI = SceneUI;
+
+        go.transform.SetParent(Root.transform);
+
+        return SceneUI;
+    }
 
     public T ShowPopUpUI<T>(string name = null) where T : UI_PopUp
     {
@@ -16,6 +60,9 @@ public class UIMgr
         GameObject go = Managers.resourceMgr.Instantiate($"UI/PopUp/{name}");
         T PopUp = Utils.GetOrAddComponent<T>(go);
         _PopUpStack.Push(PopUp);
+
+        go.transform.SetParent(Root.transform);
+
         return PopUp;
     }
 

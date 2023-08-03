@@ -29,7 +29,6 @@ public class Managers : MonoBehaviour
     void Update()
     {
         _inputMgr.UpdateWhenanyKey();   // anyKey가 눌리면 Update 작동
-
     }
 
     static void init()          //singleton 패턴

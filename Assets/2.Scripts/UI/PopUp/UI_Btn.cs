@@ -32,6 +32,14 @@ public class UI_Btn : UI_PopUp   // Bind, Get~~ 등 기본 UI베이스 상속
 
     private void Start()
     {
+        init();
+    }
+
+    public override void init()      // UI_PopUp에 가상함수로 선언해둔 init()
+    {                
+        base.init();
+        Managers.UIMgr.SetCanvas(gameObject, true);
+
         Bind<Button>(typeof(enum_Button));
         Bind<Text>(typeof(enum_Text));
         Bind<Image>(typeof(enum_Image));
@@ -46,7 +54,6 @@ public class UI_Btn : UI_PopUp   // Bind, Get~~ 등 기본 UI베이스 상속
         GameObject go = GetImage((int)enum_Image.ItemIcon).gameObject;
         AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag); // 람다형식으로 AddUIEvent
     }
-
 
     int score = 0;
     public void OnBtnClicked(PointerEventData data)
