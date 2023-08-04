@@ -46,13 +46,13 @@ public class UI_Btn : UI_PopUp   // Bind, Get~~ 등 기본 UI베이스 상속
         Bind<GameObject>(typeof(enum_GameObject));
 
         GetText((int)enum_Text.PointTxt).text = "Testing";
-        Get_UI<Text>((int)enum_Text.ScoreTxt).text = "Binding test";
+        GetText((int)enum_Text.ScoreTxt).text = "Binding test";
         Debug.Log(GetGameObject((int)enum_GameObject.TestObj).name);
 
-        GetButton((int)enum_Button.PointBtn).gameObject.AddUIEvent(OnBtnClicked);   // ExtensionMethod를 통해 쉽게 사용
+        GetButton((int)enum_Button.PointBtn).gameObject.BindUIEvent(OnBtnClicked);   // ExtensionMethod를 통해 쉽게 사용
 
         GameObject go = GetImage((int)enum_Image.ItemIcon).gameObject;
-        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag); // 람다형식으로 AddUIEvent
+        BindUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag); // 람다형식으로 BindUIEvent
     }
 
     int score = 0;

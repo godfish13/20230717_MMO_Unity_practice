@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour       // 상속용 기본 base이므로 abstract 클래스로 선언
 {
     Dictionary<Type, UnityEngine.Object[]> D_objects = new Dictionary<Type, UnityEngine.Object[]>(); // Hashtable 일반화 버전
+
+    public abstract void init();
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object        // Button, Text등의 유니티엔진 내 UI와 이 스크립트에 선언한 UI이름이 동일하게 존재할 경우
     {                                                           // 해당 UI와 이 스크립트에 선언한 변수를 연동시켜줌
@@ -28,7 +30,7 @@ public class UI_Base : MonoBehaviour
         }
     }
 
-    protected T Get_UI<T>(int idx) where T : UnityEngine.Object       // Bind로 연동한 UI 내역 enum의 값을 int로 명시적 변환하여 호출할 수 있게해줌
+    protected T Get<T>(int idx) where T : UnityEngine.Object       // Bind로 연동한 UI 내역 enum의 값을 int로 명시적 변환하여 호출할 수 있게해줌
     {
         UnityEngine.Object[] objects = null;
         if (D_objects.TryGetValue(typeof(T), out objects) == false)
@@ -38,13 +40,13 @@ public class UI_Base : MonoBehaviour
     }
 
     // Text, Button, Image 갖다쓰기 편하게 Get_UI써서 긁어오는 메소드 만들어둠
-    protected Text GetText(int idx) { return Get_UI<Text>(idx); }
-    protected Button GetButton(int idx) { return Get_UI<Button>(idx); }
-    protected Image GetImage(int idx) { return Get_UI<Image>(idx); }
-    protected GameObject GetGameObject(int idx) { return Get_UI<GameObject>(idx); }
+    protected Text GetText(int idx) { return Get<Text>(idx); }
+    protected Button GetButton(int idx) { return Get<Button>(idx); }
+    protected Image GetImage(int idx) { return Get<Image>(idx); }
+    protected GameObject GetGameObject(int idx) { return Get<GameObject>(idx); }
 
     // UI에 마우스 관련 Event연동시키는 메소드
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void BindUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
     {
         UI_EventHandler evt = Utils.GetOrAddComponent<UI_EventHandler>(go);
 

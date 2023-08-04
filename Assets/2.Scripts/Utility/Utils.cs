@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Utils
 {
-    public static T GetOrAddComponent<T>(GameObject go) where T : UnityEngine.Component
+    public static T GetOrAddComponent<T>(GameObject Target) where T : UnityEngine.Component // Target이 T를 가졌으면 불러오고 아니면 붙임
     {
-        T Component = go.GetComponent<T>();
+        T Component = Target.GetComponent<T>();
         if (Component == null)
-            Component = go.AddComponent<T>();
+            Component = Target.AddComponent<T>();
         return Component;
     }
 

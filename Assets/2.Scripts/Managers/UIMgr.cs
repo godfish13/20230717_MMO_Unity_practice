@@ -9,7 +9,7 @@ public class UIMgr
     Stack<UI_PopUp> _PopUpStack = new Stack<UI_PopUp>();
     UI_Scene _sceneUI = null;
 
-    public GameObject Root
+    public GameObject Root      // Ui들 하나로 묶어둘 뿌리 부모클래스
     {
         get 
         {
@@ -36,6 +36,19 @@ public class UIMgr
             canvas.sortingOrder = 0;   // sort요청을 안한건 PopUp과 관련없는 UI이므로 sort관련 변화 x
         }
             
+    }
+
+    public T MakeSubItem<T>(Transform parent, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name))      // 이름 지정 안하고 그냥 사용하면 T 팝업시킴
+            name = typeof(T).Name;
+
+        GameObject go = Managers.resourceMgr.Instantiate($"UI/SubItem/{name}");
+
+        if(parent != null)
+            go.transform.SetParent(parent, false);
+
+        return Utils.GetOrAddComponent<T>(go);
     }
 
     public T ShowSceneUI<T>(string name = null) where T : UI_Scene

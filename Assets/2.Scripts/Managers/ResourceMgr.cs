@@ -17,7 +17,12 @@ public class ResourceMgr
             Debug.Log($"Failed to Load prefab : {path}");
         }
 
-        return Object.Instantiate(prefab, parent);
+        GameObject go = Object.Instantiate(prefab, parent);
+        int index = go.name.IndexOf("(Clone)");     // 생성한 오브젝트의 (Clone)글자 index위치 찾고 Clone 삭제
+        if(index > 0)
+            go.name = go.name.Substring(0, index);
+
+        return go;
     }
 
     public void Destroy(GameObject gameObject) 
