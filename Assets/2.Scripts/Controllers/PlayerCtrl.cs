@@ -24,9 +24,6 @@ public class PlayerCtrl : MonoBehaviour
 
         Managers.inputMgr.MouseAction -= OnMouseClicked;
         Managers.inputMgr.MouseAction += OnMouseClicked;
-
-        Managers.UIMgr.ShowSceneUI<UI_Inven>();
-        Managers.UIMgr.ShowPopUpUI<UI_Btn>();
     }
 
     void Update()

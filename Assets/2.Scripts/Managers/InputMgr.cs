@@ -16,7 +16,6 @@ public class InputMgr
         /*Debug.Log("keydowning");
         KeyAction.Invoke();*/       // %%%% 1) ver.Rx inputMgr Move
 
-
         /*if (Input.anyKey)
         {
             //Debug.Log("keydowning");
@@ -30,14 +29,24 @@ public class InputMgr
 
         if (Input.GetMouseButton(0))
         {
+            if (MouseAction == null)
+                return;
             MouseAction.Invoke(Define.MouseEvent.Press);
             pressed = true;
         }
         else
         {
+            if (MouseAction == null)
+                return;
             if (pressed)
                 MouseAction.Invoke(Define.MouseEvent.Click);
             pressed = false;
         }
+    }
+
+    public void Clear()
+    {
+        KeyAction = null;
+        MouseAction = null;
     }
 }

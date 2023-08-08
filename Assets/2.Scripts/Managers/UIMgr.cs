@@ -108,4 +108,10 @@ public class UIMgr
         while(_PopUpStack.Count > 0)
             ClosePopUpUI();
     }
+
+    public void Clear()
+    {
+        CloseAllPopUpUI();
+        _sceneUI = null;
+    }
 }
