@@ -23,7 +23,10 @@ public class SoundMgr
                 _audioSources[i] = go.AddComponent<AudioSource>();
                 go.transform.parent = root.transform;
             }
-
+            /*_audioSources[(int)Define.Sound.Bgm].spatialBlend = 1.0f;   // 각종 요소들 접근법 예시
+            _audioSources[(int)Define.Sound.Bgm].dopplerLevel = 0.0f;
+            _audioSources[(int)Define.Sound.Bgm].rolloffMode = AudioRolloffMode.Linear;
+            _audioSources[(int)Define.Sound.Bgm].maxDistance = 30.0f;*/
             _audioSources[(int)Define.Sound.Bgm].loop = true;
         }
     }
@@ -79,11 +82,11 @@ public class SoundMgr
         }
         else
         {           
-            if (audioClipTable.TryGetValue(path, out audioClip) == false)  // dictionary내에 key가 존재하면 out에 해당값을 연결하고 true반환
+            if (audioClipTable.TryGetValue(path, out audioClip) == false)  // TryGetValue : dictionary내에 key가 유효하면 out에 해당값 연결하고 true반환
             {
                 audioClip = Managers.resourceMgr.Load<AudioClip>(path);
                 audioClipTable.Add(path, audioClip);
-            }       
+            }       // if문이 true면 TryGetValue가 out인 audioClip에 path에 해당되는 value를 audioClip에 저장해둠으로 따로 audioClip에 값을 지정안해도 됨
         }
 
         if (audioClip == null)

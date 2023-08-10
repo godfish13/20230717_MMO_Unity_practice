@@ -9,8 +9,8 @@ public class SoundTest : MonoBehaviour
     int i = 0;
     private void OnTriggerEnter(Collider other)
     {
-        Managers.soundMgr.Play("UnityChanVoice/univ1222");
-        Managers.soundMgr.Play("UnityChanVoice/univ0001");
+        //Managers.soundMgr.Play("UnityChanVoice/univ1222");
+        //Managers.soundMgr.Play("UnityChanVoice/univ0001");
 
         i++;
         if (i % 2 == 0)
