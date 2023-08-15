@@ -11,6 +11,11 @@ public class InGameScene : BaseScene
 
         //Managers.UIMgr.ShowSceneUI<UI_Inven>();
         //Managers.UIMgr.ShowPopUpUI<UI_Btn>();   
+
+        for (int i = 0; i < 4; i++)
+        {
+            Managers.resourceMgr.Instantiate("UnityChan");
+        }
     }
 
     public override void Clear()

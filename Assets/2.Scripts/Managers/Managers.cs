@@ -10,12 +10,14 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { init(); return Mgr_Instance; } }  // 이미 존재할 경우 init()내에서 생성 스킵됨
 
     InputMgr _inputMgr = new InputMgr();
+    PoolMgr _poolMgr = new PoolMgr();
     ResourceMgr _resourceMgr = new ResourceMgr();
     SceneMgrEx _sceneMgrEx = new SceneMgrEx();
     SoundMgr _soundMgr = new SoundMgr();
     UIMgr _UIMgr = new UIMgr();
 
     public static InputMgr inputMgr { get { return Instance._inputMgr; } }
+    public static PoolMgr poolMgr { get { return Instance._poolMgr; } }
     public static ResourceMgr resourceMgr { get { return Instance._resourceMgr; } }
     public static SceneMgrEx sceneMgrEx { get { return Instance._sceneMgrEx; } }
     public static SoundMgr soundMgr { get { return Instance._soundMgr; } }
@@ -49,6 +51,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(MgrObject);
             Mgr_Instance = MgrObject.GetComponent<Managers>();
 
+            Mgr_Instance._poolMgr.init();
             Mgr_Instance._soundMgr.init();
         }      
     }
@@ -59,5 +62,7 @@ public class Managers : MonoBehaviour
         sceneMgrEx.Clear();
         soundMgr.Clear();
         UIMgr.Clear();
+
+        poolMgr.Clear();
     }
 }

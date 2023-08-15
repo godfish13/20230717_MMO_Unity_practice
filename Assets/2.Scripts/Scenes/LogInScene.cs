@@ -9,11 +9,13 @@ public class LogInScene : BaseScene
     {
         base.init();
         SceneType = Define.Scene.LogIn;
+
+        List<GameObject> list = new List<GameObject>();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q)) 
+        if (Input.GetKeyDown(KeyCode.Q)) 
         {
             Managers.sceneMgrEx.LoadScene(Define.Scene.InGame);
         }
