@@ -22,7 +22,7 @@ public class InGameScene : BaseScene
         /*co = StartCoroutine("CoExplode", 4.0f);     // 이런모양으로도 사용가능
         StopCoroutine(CoStopExplode(2.0f));*/
 
-        Dictionary<int, Stat> dict = Managers.dataMgr.StatDictionary;
+        Dictionary<int, Data.Stat> dict = Managers.dataMgr.StatDictionary;
     }
 
     IEnumerator CoStopExplode(float seconds)

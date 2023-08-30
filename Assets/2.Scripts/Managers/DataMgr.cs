@@ -12,11 +12,11 @@ public interface ILoader<key, value>            // DataContents에서 활용
 
 public class DataMgr
 {
-    public Dictionary<int, Stat> StatDictionary { get; private set; } = new Dictionary<int, Stat>();
+    public Dictionary<int, Data.Stat> StatDictionary { get; private set; } = new Dictionary<int, Data.Stat>();
 
     public void init()
     {
-        StatDictionary = LoadJson<StatData, int, Stat>("StatData").MakeDict();
+        StatDictionary = LoadJson<Data.StatData, int, Data.Stat>("StatData").MakeDict();
     }
 
     Loader LoadJson<Loader, key, value>(string path) where Loader : ILoader<key, value>

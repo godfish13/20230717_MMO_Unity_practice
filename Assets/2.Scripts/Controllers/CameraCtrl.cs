@@ -10,7 +10,7 @@ public class CameraCtrl : MonoBehaviour
 
     void Start()
     {
-        SetQuaterView(new Vector3(0, 6, -5));
+        SetQuaterView(_delta);
     }
 
     void LateUpdate()
@@ -18,15 +18,15 @@ public class CameraCtrl : MonoBehaviour
         if (_mode == Define.CameraMode.QuaterView)
         {
             RaycastHit hit;
-            if(Physics.Raycast(Player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Wall")))
+            if(Physics.Raycast(Player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block")))
             {
                 float dist = (hit.point - Player.transform.position).magnitude * 0.8f;
-                transform.position = Player.transform.position + _delta.normalized * dist;
+                transform.position = Player.transform.position + Vector3.up * 1.0f + _delta.normalized * dist;
             }
             else
             {
                 transform.position = Player.transform.position + _delta;
-                transform.LookAt(Player.transform);
+                transform.LookAt(Player.transform.position + Vector3.up * 1.0f);
             }
         }
     }
