@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class PlayerCtrl : MonoBehaviour
 {
     //GameObject (Player) 부착
+    // 마우스 커서 변경, 마우스 이벤트, 플레이어 상태에 따른 행동 및 모션
 
     PlayerStat _Stat;
     Vector3 MouseClickDestination;
