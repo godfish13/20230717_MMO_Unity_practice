@@ -11,7 +11,7 @@ public class InGameScene : BaseScene
         base.init();
         SceneType = Define.Scene.InGame;
 
-        //Managers.UIMgr.ShowSceneUI<UI_Inven>();
+        Managers.UIMgr.ShowSceneUI<UI_Inven>();
         //Managers.UIMgr.ShowPopUpUI<UI_Btn>();   
 
         /*for (int i = 0; i < 4; i++)

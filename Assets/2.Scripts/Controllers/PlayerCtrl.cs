@@ -10,6 +10,18 @@ public class PlayerCtrl : MonoBehaviour
     PlayerStat _Stat;
     Vector3 MouseClickDestination;
 
+    Texture2D AttackCursor;
+    Texture2D HandCursor;
+
+    enum CursorType
+    {
+        None,
+        Hand,
+        Attack,
+    }
+
+    CursorType _cursorType = CursorType.None;
+
     public enum PlayerStatue
     {
         Die,
@@ -24,14 +36,19 @@ public class PlayerCtrl : MonoBehaviour
         /*Managers.inputMgr.KeyAction -= Move; // 다른부분에서 Move가 연동되있을시 액션이벤트가 여러번 발생하는 버그방지를 위해 초기화
         Managers.inputMgr.KeyAction += Move; // inputMgr의 KeyAction에 Move 연동*/ // 본작에서는 일단 마우스 조종만 구현
 
+        AttackCursor = Managers.resourceMgr.Load<Texture2D>("Textures/Cursors/Attack");
+        HandCursor = Managers.resourceMgr.Load<Texture2D>("Textures/Cursors/Hand");
+
         _Stat = GetComponent<PlayerStat>();
 
-        Managers.inputMgr.MouseAction -= OnMouseClicked;
-        Managers.inputMgr.MouseAction += OnMouseClicked;
+        Managers.inputMgr.MouseAction -= OnMouseEvent;
+        Managers.inputMgr.MouseAction += OnMouseEvent;
     }
 
     void Update()
     {
+        UpdateMouseCursor();
+
         switch (_Statue)
         {
             case PlayerStatue.Die:
@@ -44,6 +61,35 @@ public class PlayerCtrl : MonoBehaviour
                 UpdateMoving();
                 break;
         }    
+    }
+
+    void UpdateMouseCursor()
+    {
+        if (Input.GetMouseButton(0))    // 마우스 클릭중에는 커서 변화 x
+            return;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100.0f, GroundMonsterLayerMask))
+        {
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
+            {
+                if(_cursorType != CursorType.Attack)
+                {
+                    Cursor.SetCursor(AttackCursor, new Vector2(AttackCursor.width / 5, 0), CursorMode.Auto);
+                    _cursorType = CursorType.Attack;    // SetCursor(texture, hotspot, cursorMode) hotspot : 마우스 포인터가 클릭되는 위치 (0,0) == 왼쪽위 구석
+                }                                                               // cursorMode : auto == 하드웨어에 따라 최적화 걍 auto쓰자
+            } 
+            else
+            {
+                if(_cursorType != CursorType.Hand)
+                {
+                    Cursor.SetCursor(HandCursor, new Vector2(HandCursor.width / 3, 0), CursorMode.Auto);
+                    _cursorType = CursorType.Hand;
+                }
+            }
+        }
     }
 
     void UpdateDie()
@@ -70,7 +116,8 @@ public class PlayerCtrl : MonoBehaviour
             Debug.DrawRay(transform.position + Vector3.up * 0.5f, dir.normalized, Color.green);
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f, dir, 1.0f, LayerMask.GetMask("Block")))
             {
-                _Statue = PlayerStatue.Idle;
+                if (Input.GetMouseButton(0) == false)
+                    _Statue = PlayerStatue.Idle;
                 return;
             }
 
@@ -82,11 +129,6 @@ public class PlayerCtrl : MonoBehaviour
         // 현재 게임 상태에 대한 정보를 넘겨줌
         Anim.SetFloat("Speed", _Stat.MoveSpeed);
     }
-
-    /*void OnRunEvent()     // AnimationEvent 실험
-    {
-        Debug.Log("뚜벅뚜벅")
-    }*/
 
     void UpdateIdle()
     {
@@ -101,28 +143,43 @@ public class PlayerCtrl : MonoBehaviour
                                 // 각각 Define에서 6, 7의 값을 가짐 해당 값들만큼 비트연산자 이동
                                 // 두 값을 합하면 0000 0000 0110 0000 이므로 이는 레이어 마스크에서 6, 7번 레이어를 의미하게됨
                                 // LayerMask.GetMask("String Name")을 써도 되나 연산속도면에서 비트 플래그가 훨씬 빠름
-    void OnMouseClicked(Define.MouseEvent evt)
+    GameObject LockTarget;
+
+    void OnMouseEvent(Define.MouseEvent evt)
     {
         if (_Statue == PlayerStatue.Die)
             return;
-
+        RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool RayCastHitTarget = Physics.Raycast(ray, out hit, 100.0f, GroundMonsterLayerMask);
         //Debug.DrawRay(Camera.main.transform.position, ray.direction * 100.0f, Color.red, 1.0f);
 
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, GroundMonsterLayerMask))
+        switch(evt)
         {
-            MouseClickDestination = hit.point;
-            _Statue = PlayerStatue.Moving;
+            case Define.MouseEvent.PointerDown:     // 마우스 꾹 누르고 있기
+                {
+                    if (RayCastHitTarget)
+                    {
+                        MouseClickDestination = hit.point;
+                        _Statue = PlayerStatue.Moving;
 
-            if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)
-            {
-                Debug.Log("Monster!!");
-            }
-            else
-            {
-                Debug.Log("Ground!!");
-            }
+                        if (hit.collider.gameObject.layer == (int)Define.Layer.Monster)                       
+                            LockTarget = hit.collider.gameObject;                      
+                        else                    
+                            LockTarget = null;
+                    }
+                }
+                break;
+            case Define.MouseEvent.Press:       // 마우스 잠깐 딸깍 클릭
+                {
+                    if (LockTarget!= null)
+                        MouseClickDestination = LockTarget.transform.position;                  
+                    else if (RayCastHitTarget)
+                        MouseClickDestination = hit.point;                  
+                }
+                break;
+            case Define.MouseEvent.PointerUp:   // 마우스 꾹 누르다가 놓기
+                break;
         }
     }
 }

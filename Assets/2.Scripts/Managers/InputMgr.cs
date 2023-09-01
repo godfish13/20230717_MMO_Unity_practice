@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UniRx;
 
 public class InputMgr
 {
@@ -10,6 +11,7 @@ public class InputMgr
 
     public Action<Define.MouseEvent> MouseAction = null;
     bool pressed = false;
+    float pressedTime = 0;
 
     public void UpdateWhenanyKey()      // Managers의 Update에서 anyKey가 눌리면 KeyAction 이벤트를 실행시켜줄 함수
     {
@@ -31,6 +33,11 @@ public class InputMgr
         {
             if (MouseAction == null)
                 return;
+            if (pressed == false)
+            {
+                MouseAction.Invoke(Define.MouseEvent.PointerDown);
+                pressedTime = Time.time;
+            }
             MouseAction.Invoke(Define.MouseEvent.Press);
             pressed = true;
         }
@@ -39,8 +46,13 @@ public class InputMgr
             if (MouseAction == null)
                 return;
             if (pressed)
-                MouseAction.Invoke(Define.MouseEvent.Click);
+            {
+                if(Time.time < pressedTime * 0.2f)              
+                    MouseAction.Invoke(Define.MouseEvent.Click);
+                MouseAction.Invoke(Define.MouseEvent.PointerUp);
+            }
             pressed = false;
+            pressedTime = 0;
         }
     }
 

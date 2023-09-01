@@ -13,9 +13,9 @@ public class UIMgr
     {
         get 
         {
-            GameObject root = GameObject.Find("root");
+            GameObject root = GameObject.Find("root_UI");
             if(root == null)
-                root = new GameObject { name = "root" };
+                root = new GameObject { name = "root_UI" };
             return root;
         }
     }

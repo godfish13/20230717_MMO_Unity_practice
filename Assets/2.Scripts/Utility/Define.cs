@@ -36,6 +36,8 @@ public class Define
     {
         Press,
         Click,
+        PointerDown,
+        PointerUp,
     }
 
     public enum CameraMode
