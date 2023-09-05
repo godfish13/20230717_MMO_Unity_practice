@@ -11,6 +11,11 @@ public abstract class UI_Base : MonoBehaviour       // 상속용 기본 base이므로 ab
 
     public abstract void init();
 
+    private void Start()
+    {
+        init();
+    }
+
     protected void Bind<T>(Type type) where T : UnityEngine.Object        // Button, Text등의 유니티엔진 내 UI와 이 스크립트에 선언한 UI이름이 동일하게 존재할 경우
     {                                                           // 해당 UI와 이 스크립트에 선언한 변수를 연동시켜줌
         string[] Names = Enum.GetNames(type);       // type enum내의 항목들 각각 string으로 이름변환해서 배열로 돌려줌

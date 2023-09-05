@@ -30,11 +30,6 @@ public class UI_Btn : UI_PopUp   // Bind, Get~~ 등 기본 UI베이스 상속
         TestObj,
     }
 
-    private void Start()
-    {
-        init();
-    }
-
     public override void init()      // UI_PopUp에 가상함수로 선언해둔 init()
     {                
         base.init();

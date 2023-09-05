@@ -17,8 +17,8 @@ public class Stat : MonoBehaviour
     [SerializeField]
     protected float _MoveSpeed;
 
-    public int Level { get { return _Level; } set { _Level = value; } }   // 따로 SerializeField 선언안하고 프로퍼티로만 하면 유니티 내 inspector에서 안보임 그래서 따로 선언
-    public int HP { get { return _HP; } set { _HP = value; } }
+    public int Level { get { return _Level; } set { _Level = value; } }   // 따로 SerializeField 선언안하고 프로퍼티로만 하면 유니티 내 inspector에서 안보임
+    public int HP { get { return _HP; } set { _HP = value; } }              // 그러므로 SerializeField로 각 변수 선언해두고 프로퍼티로 설정가능하게 둘다 선언
     public int MaxHP { get { return _MaxHP;} set { _MaxHP = value; } }
     public int Attack { get { return _Attack; } set { _Attack = value; } }
     public int Defence { get { return _Defence; } set { _Defence = value; } }

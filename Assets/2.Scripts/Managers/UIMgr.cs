@@ -38,6 +38,23 @@ public class UIMgr
             
     }
 
+    public T MakeWorldSpaceUI<T>(Transform parent, string name = null) where T : UI_Base
+    {
+        if (string.IsNullOrEmpty(name))      // 이름 지정 안하고 그냥 사용하면 T 팝업시킴
+            name = typeof(T).Name;
+
+        GameObject go = Managers.resourceMgr.Instantiate($"UI/WorldSpace/{name}");
+
+        if (parent != null)
+            go.transform.SetParent(parent, false);
+
+        Canvas canvas = go.GetOrAddComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+
+        return Utils.GetOrAddComponent<T>(go);
+    }
+
     public T MakeSubItem<T>(Transform parent, string name = null) where T : UI_Base
     {
         if (string.IsNullOrEmpty(name))      // 이름 지정 안하고 그냥 사용하면 T 팝업시킴
