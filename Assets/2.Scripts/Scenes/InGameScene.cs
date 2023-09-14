@@ -25,6 +25,11 @@ public class InGameScene : BaseScene
         Dictionary<int, Data.Stat> dict = Managers.dataMgr.StatDictionary;
 
         gameObject.GetOrAddComponent<CursorCtrl>();
+
+        GameObject Player = Managers.gameMgr.Spawn(Define.WorldObject.Player, "UnityChan");
+        Camera.main.gameObject.GetOrAddComponent<CameraCtrl>().SetPlayer(Player);
+
+        Managers.gameMgr.Spawn(Define.WorldObject.Monster, "DogPBR");
     }
 
     IEnumerator CoStopExplode(float seconds)

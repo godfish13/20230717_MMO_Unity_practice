@@ -8,6 +8,8 @@ public class CameraCtrl : MonoBehaviour
     [SerializeField] private Vector3 _delta = new Vector3(0, 0, 0); // 카메라가 캐릭터 바라보는 방향
     [SerializeField] private GameObject Player = null;
 
+    public void SetPlayer(GameObject _player) { Player = _player; }
+
     void Start()
     {
         SetQuaterView(_delta);
@@ -17,6 +19,11 @@ public class CameraCtrl : MonoBehaviour
     {
         if (_mode == Define.CameraMode.QuaterView)
         {
+            if(Player.isValid() == false)       // 플레이어가 없는상태면 return
+            {
+                return;
+            }
+
             RaycastHit hit;
             if(Physics.Raycast(Player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block")))
             {

@@ -15,6 +15,7 @@ public class PlayerCtrl : BaseCtrl
 
     protected override void init()
     {
+        WorldObjectType = Define.WorldObject.Player;
         _Stat = GetComponent<PlayerStat>();
         Managers.inputMgr.MouseAction -= OnMouseEvent;
         Managers.inputMgr.MouseAction += OnMouseEvent;

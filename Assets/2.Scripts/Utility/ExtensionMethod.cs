@@ -16,4 +16,8 @@ public static class ExtensionMethod    // GameObject 앞에 this 추가됨 이제 go.Bi
         UI_Base.BindUIEvent(go, action, type);
     }
 
+    public static bool isValid(this GameObject go)
+    {
+        return go != null && go.activeSelf;
+    }
 }

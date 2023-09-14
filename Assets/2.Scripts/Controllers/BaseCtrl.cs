@@ -8,6 +8,8 @@ public abstract class BaseCtrl : MonoBehaviour
     [SerializeField] protected Define.State _State = Define.State.Idle;
     [SerializeField] protected GameObject LockTarget;
 
+    public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Unknown;
+
     public virtual Define.State State  // 애니메이션 set과 현재상태 set을 동시에하도록 프로퍼티 설정
     {
         get { return _State; }

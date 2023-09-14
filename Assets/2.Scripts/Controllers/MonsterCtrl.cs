@@ -6,12 +6,14 @@ using UnityEngine.AI;
 public class MonsterCtrl : BaseCtrl
 {
     Stat _Stat;
+    Stat TargetStat;
 
     [SerializeField] float ScanRange = 10.0f;
     [SerializeField] float AttackRange = 2.0f;
 
     protected override void init()
     {
+        WorldObjectType = Define.WorldObject.Monster;
         _Stat = GetComponent<Stat>();
 
         if(gameObject.GetComponentInChildren<UI_HPBar>() == null)
@@ -28,6 +30,8 @@ public class MonsterCtrl : BaseCtrl
         if (distance <= ScanRange)
         {
             LockTarget = Player;
+            if(TargetStat == null)
+                TargetStat = LockTarget.GetComponent<Stat>();
             State = Define.State.Moving;
             return;
         }
@@ -85,9 +89,7 @@ public class MonsterCtrl : BaseCtrl
     {
         if (LockTarget != null)
         {
-            Stat TargetStat = LockTarget.GetComponent<Stat>();
-            Stat MyStat = gameObject.GetComponent<Stat>();
-            int Damage = Mathf.Max(0, MyStat.Attack - TargetStat.Defence);
+            int Damage = Mathf.Max(0, _Stat.Attack - TargetStat.Defence);
             TargetStat.HP -= Damage;          
         }
         else
@@ -98,7 +100,10 @@ public class MonsterCtrl : BaseCtrl
 
     public void OnHitRoutineEventMonster()
     {
-        Stat TargetStat = LockTarget.GetComponent<Stat>();
+        if (TargetStat.HP <= 0)
+        {
+            Managers.gameMgr.DeSpawn(TargetStat.gameObject);
+        }
         if (TargetStat.HP > 0)
         {
             float Distance = (LockTarget.transform.position - transform.position).magnitude;
