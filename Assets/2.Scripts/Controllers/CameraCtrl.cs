@@ -25,7 +25,7 @@ public class CameraCtrl : MonoBehaviour
             }
 
             RaycastHit hit;
-            if(Physics.Raycast(Player.transform.position, _delta, out hit, _delta.magnitude, LayerMask.GetMask("Block")))
+            if(Physics.Raycast(Player.transform.position, _delta, out hit, _delta.magnitude, 1 << (int)Define.Layer.Block))
             {
                 float dist = (hit.point - Player.transform.position).magnitude * 0.8f;
                 transform.position = Player.transform.position + Vector3.up * 1.0f + _delta.normalized * dist;

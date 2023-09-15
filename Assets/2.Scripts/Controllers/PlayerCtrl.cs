@@ -83,10 +83,7 @@ public class PlayerCtrl : BaseCtrl
         if(LockTarget != null)
         {
             Stat TargetStat =  LockTarget.GetComponent<Stat>();
-            Stat MyStat = gameObject.GetComponent<PlayerStat>();
-            int Damage = Mathf.Max(0, MyStat.Attack - TargetStat.Defence);
-            //Debug.Log(Damage);
-            TargetStat.HP -= Damage;
+            TargetStat.OnAttacked(_Stat);
         }
     }
 

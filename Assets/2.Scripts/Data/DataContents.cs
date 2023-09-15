@@ -10,9 +10,10 @@ namespace Data
     [Serializable]      // 메모리에 들고있는 정보를 파일로 변환시키기 위해 필요한 선언
     public class Stat
     {
-        public int level;       // public or [SerializeField] 선언해야지 JSON에서 데이터 받아올 수 있음
-        public int HP;          // 각 항목의 이름이랑 JSON 파일 내 항목의 이름이 꼭 같아야 데이터 받아올 수 있음
-        public int attack;      // 자료형 또한 주의!
+        public int Level;       // public or [SerializeField] 선언해야지 JSON에서 데이터 받아올 수 있음
+        public int MaxHP;          // 각 항목의 이름이랑 JSON 파일 내 항목의 이름이 꼭 같아야 데이터 받아올 수 있음
+        public int Attack;      // 자료형 또한 주의!
+        public int TotalExp;
     }
 
     [Serializable]
@@ -24,7 +25,7 @@ namespace Data
         {
             Dictionary<int, Stat> dict = new Dictionary<int, Stat>();
             foreach (Stat stat in Stats)
-                dict.Add(stat.level, stat);
+                dict.Add(stat.Level, stat);
             return dict;
         }
     }

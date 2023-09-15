@@ -9,6 +9,8 @@ public class GameMgr
     // int <-> GameObject 데이터 베이스 상 각 게임오브젝트가 int의 값으로 저장하는 것은 나중에 해보고 지금은 일단 key값없는 HashSet으로 제작
     HashSet<GameObject> Monsters = new HashSet<GameObject>();
 
+    public GameObject GetPlayer() { return Player; }
+
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
     {
         GameObject go = Managers.resourceMgr.Instantiate(path, parent);

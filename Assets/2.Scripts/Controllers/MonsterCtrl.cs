@@ -22,7 +22,7 @@ public class MonsterCtrl : BaseCtrl
 
     protected override void UpdateIdle()
     {
-        GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        GameObject Player = Managers.gameMgr.GetPlayer();
         if (Player == null)
             return;
 
@@ -89,8 +89,7 @@ public class MonsterCtrl : BaseCtrl
     {
         if (LockTarget != null)
         {
-            int Damage = Mathf.Max(0, _Stat.Attack - TargetStat.Defence);
-            TargetStat.HP -= Damage;          
+            TargetStat.OnAttacked(_Stat);        
         }
         else
         {
