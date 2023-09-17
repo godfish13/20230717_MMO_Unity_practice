@@ -39,6 +39,7 @@ public class PlayerCtrl : BaseCtrl
 
         // 이동
         Vector3 dir = DestinationPos - transform.position;
+        dir.y = 0;  // y축 위로 올라가는 버그 방지
         if (dir.magnitude < 0.1f)
         {
             State = Define.State.Idle;

@@ -11,7 +11,7 @@ public class InGameScene : BaseScene
         base.init();
         SceneType = Define.Scene.InGame;
 
-        Managers.UIMgr.ShowSceneUI<UI_Inven>();
+        //Managers.UIMgr.ShowSceneUI<UI_Inven>();
         //Managers.UIMgr.ShowPopUpUI<UI_Btn>();   
 
         /*for (int i = 0; i < 4; i++)
@@ -28,8 +28,9 @@ public class InGameScene : BaseScene
 
         GameObject Player = Managers.gameMgr.Spawn(Define.WorldObject.Player, "UnityChan");
         Camera.main.gameObject.GetOrAddComponent<CameraCtrl>().SetPlayer(Player);
-
-        Managers.gameMgr.Spawn(Define.WorldObject.Monster, "DogPBR");
+        GameObject go = new GameObject { name = "SpawningPool" };
+        SpawningPool spawningPool =  go.GetOrAddComponent<SpawningPool>();
+        spawningPool.SetKeepMonsterCount(5);
     }
 
     IEnumerator CoStopExplode(float seconds)

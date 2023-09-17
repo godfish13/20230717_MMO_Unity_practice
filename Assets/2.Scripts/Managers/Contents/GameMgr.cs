@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class GameMgr
     // int <-> GameObject 데이터 베이스 상 각 게임오브젝트가 int의 값으로 저장하는 것은 나중에 해보고 지금은 일단 key값없는 HashSet으로 제작
     HashSet<GameObject> Monsters = new HashSet<GameObject>();
 
+    public Action<int> OnSpawnEvent;
+
     public GameObject GetPlayer() { return Player; }
 
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
@@ -19,6 +22,8 @@ public class GameMgr
         {
             case Define.WorldObject.Monster:
                 Monsters.Add(go);
+                if (OnSpawnEvent != null)
+                    OnSpawnEvent.Invoke(1); // 몬스터 수가 늘었다는 의미로 +1
                 break;
             case Define.WorldObject.Player:
                 Player = go;
@@ -46,7 +51,11 @@ public class GameMgr
             case Define.WorldObject.Monster:
                 {
                     if(Monsters.Contains(go))
+                    {
                         Monsters.Remove(go);
+                        if (OnSpawnEvent != null)
+                            OnSpawnEvent.Invoke(-1);    // 몬스터 수가 줄었다는 의미로 -1
+                    }
                 }
                 break;
             case Define.WorldObject.Player:
