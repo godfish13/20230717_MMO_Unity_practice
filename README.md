@@ -1,2 +1,2 @@
 # 20230717_MMO_Unity_practice
- MMO_study_withServer
+ MMO_study_UnityBase
